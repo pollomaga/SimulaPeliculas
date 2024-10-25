@@ -1,0 +1,77 @@
+/* style.css */
+
+/* Estilo del contenedor principal */
+.container {
+  background-color: #f8f9fa; /* Fondo claro */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilo de los encabezados */
+h1 {
+  color: #343a40; /* Color oscuro */
+}
+
+h3 {
+  color: #007bff; /* Color primario de Bootstrap */
+}
+
+/* Estilo para la sección de búsqueda */
+.search-section {
+  margin-bottom: 20px;
+}
+
+/* Estilo de los resultados */
+#results {
+  margin-top: 20px;
+}
+
+/* Estilo de las imágenes */
+.img-fluid {
+  border-radius: 5px; /* Bordes redondeados para las imágenes */
+  transition: transform 0.3s; /* Transición suave para el efecto hover */
+}
+
+.img-fluid:hover {
+  transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+}
+
+/* Estilo para las tarjetas de películas/series */
+.p-2 {
+  margin: 10px; /* Espacio entre las tarjetas */
+}
+
+/* Estilo del modal */
+.modal-content {
+  border-radius: 8px; /* Bordes redondeados para el modal */
+}
+
+.modal-header {
+  background-color: #007bff; /* Fondo azul del encabezado del modal */
+  color: white; /* Texto blanco */
+}
+
+.modal-body {
+  background-color: #ffffff; /* Fondo blanco para el cuerpo del modal */
+}
+/* style.css */
+
+/* Ajuste de tamaño para las imágenes (posters) */
+.img-fluid {
+  width: 150px; /* Ancho fijo para las imágenes */
+  height: auto; /* Mantiene la proporción original */
+  border-radius: 5px; /* Bordes redondeados para las imágenes */
+  transition: transform 0.3s; /* Transición suave para el efecto hover */
+}
+
+.img-fluid:hover {
+  transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+}
+/* Centrar los títulos principales */
+.title-center {
+  text-align: center; /* Alinear el texto al centro */
+  font-size: 24px; /* Ajusta el tamaño de la fuente según prefieras */
+  font-weight: bold; /* Hacer el texto en negrita */
+  margin-bottom: 20px; /* Espacio inferior opcional para separación */
+}
