@@ -75,3 +75,44 @@ h3 {
   font-weight: bold; /* Hacer el texto en negrita */
   margin-bottom: 20px; /* Espacio inferior opcional para separación */
 }
+#wishListContainer {
+  margin: 20px;
+}
+
+.wish-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wish-item {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.wish-img {
+  width: 100px;
+  height: auto;
+  margin-right: 10px;
+}
+
+button {
+  margin-left: auto;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

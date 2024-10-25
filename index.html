@@ -26,6 +26,9 @@
       <button class="btn btn-primary" onclick="search()">Buscar</button>
     </div>
 
+        <!-- Sección para mostrar los resultados de búsqueda -->
+        <div id="results" class="d-flex flex-wrap justify-content-start mt-4"></div>
+
     <!-- Sección para mostrar las películas y series populares -->
     <div id="popularMovies" class="d-flex flex-wrap justify-content-start"></div>
     <div id="popularSeries" class="d-flex flex-wrap justify-content-start"></div>
@@ -46,9 +49,12 @@
   </div>
 </div>
 
+<div id="watchlist">
+  <h2>Lista de Deseos</h2>
+  <div id="wishlistContainer"></div>
+</div>
 
-    <!-- Sección para mostrar los resultados de búsqueda -->
-    <div id="results" class="d-flex flex-wrap justify-content-start mt-4"></div>
+
   </div>
 
   <script src="./main.js"></script>

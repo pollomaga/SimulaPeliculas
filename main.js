@@ -1,86 +1,72 @@
 const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MjU5NDIyMWVhYjdhNTMyZjY4ZWFjZjQ4ZTQ4MDNjZSIsIm5iZiI6MTcyOTYzOTI0NS4wNzYwNDcsInN1YiI6IjY3MTdjYjc3MWUyMmQzZmI2YmJkNTZjYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.818sK98JtFcbPu7DyeOLh1F2KvfHa8bb5wifz_0FLH4'
-    }
-  };
-  
-  
-// Función para mostrar películas populares (solo pósters)
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MjU5NDIyMWVhYjdhNTMyZjY4ZWFjZjQ4ZTQ4MDNjZSIsIm5iZiI6MTcyOTYzOTI0NS4wNzYwNDcsInN1YiI6IjY3MTdjYjc3MWUyMmQzZmI2YmJkNTZjYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.818sK98JtFcbPu7DyeOLh1F2KvfHa8bb5wifz_0FLH4' // Reemplaza esto con tu token de API
+  }
+};
+
+// Función para mostrar películas populares
+
 function displayPopularMovies(movies) {
   const popularDiv = document.getElementById('popularMovies');
-  
-  // Limpiamos el contenido anterior
-  popularDiv.innerHTML = `
-    <div style="text-align: center; margin-bottom: 20px;">
-      <h3 style="font-size: 24px; font-weight: bold;">10 Películas más vistas</h3>
-    </div>
-  `;
+  popularDiv.innerHTML = `<div class="title-center">10 Películas más vistas</div>`;
 
-  // Creamos un contenedor para las películas
   const moviesContainer = document.createElement('div');
   moviesContainer.style.display = 'flex';
   moviesContainer.style.flexWrap = 'wrap';
-  moviesContainer.style.justifyContent = 'center';  // Para centrar los posters
-  
-  // Iteramos sobre las películas para crear los elementos correspondientes
+  moviesContainer.style.justifyContent = 'center';
+
   movies.forEach(movie => {
     const movieElement = document.createElement('div');
-    movieElement.classList.add('p-2'); // Clase de padding (bootstrap o custom)
-    
-    // Definimos la URL del póster (o un placeholder si no hay imagen disponible)
-    const posterUrl = movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : 'https://via.placeholder.com/150x225?text=No+Image';
+    movieElement.classList.add('p-2');
 
-    // Insertamos el póster de la película
+    const posterUrl = movie.poster_path
+      ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+      : 'https://via.placeholder.com/150x225?text=No+Image';
+
     movieElement.innerHTML = `
-      <img src="${posterUrl}" alt="${movie.title}" class="img-fluid" 
-      style="cursor:pointer; margin: 10px; max-width: 150px;" 
-      onclick="showDetails('movie', ${movie.id})">
+      <img src="${posterUrl}" alt="${movie.title}" class="img-fluid"
+      style="cursor:pointer;" onclick="showDetails('movie', ${movie.id})">
+      <button onclick="toggleWatchlist({id: ${movie.id}, type: 'movie', title: '${movie.title}', poster_path: '${movie.poster_path || ''}'})">Lista de deseos</button>
     `;
 
-    // Añadimos cada película al contenedor de películas
     moviesContainer.appendChild(movieElement);
   });
 
-  // Añadimos el contenedor de películas debajo del título
   popularDiv.appendChild(moviesContainer);
 }
 
-
-// Función para mostrar series populares (solo pósters)
 function displayPopularSeries(series) {
   const popularDiv = document.getElementById('popularSeries');
-  popularDiv.innerHTML = `
-    <div style="text-align: center;">
-      <h3>10 Series más vistas</h3>
-    </div>
-    <div style="margin-bottom: 20px;"></div> <!-- Salto de línea visual -->
-  `;
+  popularDiv.innerHTML = `<div class="title-center">10 Series más vistas</div>`;
 
   const seriesContainer = document.createElement('div');
   seriesContainer.style.display = 'flex';
   seriesContainer.style.flexWrap = 'wrap';
-  seriesContainer.style.justifyContent = 'center';  // Para centrar los posters
+  seriesContainer.style.justifyContent = 'center';
 
   series.forEach(serie => {
     const serieElement = document.createElement('div');
     serieElement.classList.add('p-2');
 
-    const posterUrl = serie.poster_path ? `https://image.tmdb.org/t/p/w500/${serie.poster_path}` : 'https://via.placeholder.com/150x225?text=No+Image';
+    const posterUrl = serie.poster_path
+      ? `https://image.tmdb.org/t/p/w500/${serie.poster_path}`
+      : 'https://via.placeholder.com/150x225?text=No+Image';
 
     serieElement.innerHTML = `
-      <img src="${posterUrl}" alt="${serie.name}" class="img-fluid" style="cursor:pointer; margin: 10px;" onclick="showDetails('tv', ${serie.id})">
+      <img src="${posterUrl}" alt="${serie.name}" class="img-fluid"
+      style="cursor:pointer;" onclick="showDetails('tv', ${serie.id})">
+      <button onclick="toggleWatchlist({id: ${serie.id}, type: 'tv', title: '${serie.name}', poster_path: '${serie.poster_path || ''}'})">Lista de deseos</button>
     `;
+
     seriesContainer.appendChild(serieElement);
   });
 
   popularDiv.appendChild(seriesContainer);
 }
 
-
-  
-  // Función para mostrar detalles en un modal ajustado con más información
+// Función para mostrar detalles en un modal
 async function showDetails(type, id) {
   const url = `https://api.themoviedb.org/3/${type}/${id}?language=en-US&append_to_response=credits`;
 
@@ -91,28 +77,22 @@ async function showDetails(type, id) {
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
 
-    // Detalles del título (película o serie)
     modalTitle.innerHTML = `${type === 'movie' ? data.title : data.name}`;
 
     const posterUrl = data.poster_path
       ? `https://image.tmdb.org/t/p/w500/${data.poster_path}`
       : 'https://via.placeholder.com/150x225?text=No+Image';
 
-    // Obtener géneros
     const genres = data.genres.map(genre => genre.name).join(', ');
 
-    // Duración (película) o número de episodios (serie)
     const duration = type === 'movie'
       ? `<p><strong>Duración:</strong> ${data.runtime} minutos</p>`
       : `<p><strong>Episodios:</strong> ${data.number_of_episodes}</p>`;
 
-    // Productoras
     const productionCompanies = data.production_companies.map(company => company.name).join(', ');
 
-    // Calificación
     const rating = data.vote_average ? `${data.vote_average}/10` : 'No disponible';
 
-    // Reparto principal (máx. 5 actores)
     const cast = data.credits && data.credits.cast.length > 0
       ? data.credits.cast.slice(0, 5).map(actor => actor.name).join(', ')
       : 'No disponible';
@@ -138,115 +118,189 @@ async function showDetails(type, id) {
     modal.show();
   } catch (error) {
     console.error(error);
+    alert('Hubo un error al cargar los detalles. Intenta nuevamente.');
   }
 }
 
-  
-  // Función para obtener las 10 películas más populares
-  async function getMostPopularMovies() {
-    try {
-      const response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options);
-      const data = await response.json();
-      displayPopularMovies(data.results.slice(0, 10)); // Limitar a 10 películas
-    } catch (error) {
-      console.error(error);
-    }
+// Función para obtener películas populares
+async function getMostPopularMovies() {
+  showLoadingIndicator('popularMovies');
+
+  try {
+    const response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options);
+    const data = await response.json();
+    displayPopularMovies(data.results.slice(0, 10)); // Mostrar 10 películas
+  } catch (error) {
+    console.error(error);
+    alert('No se pudieron cargar las películas populares.');
   }
-  
-  // Función para obtener las 10 series más populares
-  async function getMostPopularSeries() {
-    try {
-      const response = await fetch('https://api.themoviedb.org/3/tv/popular?language=en-US&page=1', options);
-      const data = await response.json();
-      displayPopularSeries(data.results.slice(0, 10)); // Limitar a 10 series
-    } catch (error) {
-      console.error(error);
-    }
+}
+
+// Función para obtener series populares
+async function getMostPopularSeries() {
+  showLoadingIndicator('popularSeries');
+
+  try {
+    const response = await fetch('https://api.themoviedb.org/3/tv/popular?language=en-US&page=1', options);
+    const data = await response.json();
+    displayPopularSeries(data.results.slice(0, 10)); // Mostrar 10 series
+  } catch (error) {
+    console.error(error);
+    alert('No se pudieron cargar las series populares.');
   }
-  
-  // Función para buscar por título o actor
-  async function search() {
-    const searchInput = document.getElementById('searchInput').value;
-    const searchType = document.getElementById('searchType').value;
-  
-    let url = '';
-  
-    if (searchType === 'movie') {
-      url = `https://api.themoviedb.org/3/search/movie?query=${searchInput}&language=en-US&page=1`;
-    } else if (searchType === 'tv') {
-      url = `https://api.themoviedb.org/3/search/tv?query=${searchInput}&language=en-US&page=1`;
-    } else if (searchType === 'actor') {
-      url = `https://api.themoviedb.org/3/search/person?query=${searchInput}&language=en-US&page=1`;
-    }
-  
-    try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-  
+}
+
+// Función para buscar por título o actor
+async function search() {
+  const searchInput = document.getElementById('searchInput').value.trim();
+  const searchType = document.getElementById('searchType').value;
+
+  if (searchInput === '') {
+    alert('Por favor, introduce un término de búsqueda');
+    return;
+  }
+
+  showLoadingIndicator('results'); // Mostrar indicador de carga mientras se realiza la búsqueda
+
+  let url = '';
+  if (searchType === 'movie') {
+    url = `https://api.themoviedb.org/3/search/movie?query=${searchInput}&language=en-US&page=1`;
+  } else if (searchType === 'tv') {
+    url = `https://api.themoviedb.org/3/search/tv?query=${searchInput}&language=en-US&page=1`;
+  } else if (searchType === 'actor') {
+    url = `https://api.themoviedb.org/3/search/person?query=${searchInput}&language=en-US&page=1`;
+  }
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (data.results.length === 0) {
+      displayNoResults();
+    } else {
       if (searchType === 'actor') {
         displayActorResults(data.results);
       } else {
         displaySearchResults(data.results, searchType);
       }
-    } catch (error) {
-      console.error(error);
     }
+  } catch (error) {
+    console.error(error);
+    alert('Hubo un error al realizar la búsqueda. Intenta nuevamente.');
   }
-  
-  // Función para mostrar resultados de búsqueda
-  function displaySearchResults(results, type) {
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = `<h3>Resultados de búsqueda (${type === 'movie' ? 'Películas' : 'Series'})</h3>`;
-  
-    results.forEach(result => {
-      const resultElement = document.createElement('div');
-      resultElement.classList.add('p-2');
-  
-      const posterUrl = result.poster_path ? `https://image.tmdb.org/t/p/w500/${result.poster_path}` : 'https://via.placeholder.com/150x225?text=No+Image';
-  
-      resultElement.innerHTML = `
-        <img src="${posterUrl}" alt="${type === 'movie' ? result.title : result.name}" class="img-fluid" style="cursor:pointer;" onclick="showDetails('${type}', ${result.id})">
+}
+
+// Mostrar resultados de búsqueda (películas o series)
+function displaySearchResults(results, type) {
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = `<h3>Resultados de búsqueda (${type === 'movie' ? 'Películas' : 'Series'})</h3>`;
+
+  results.forEach(result => {
+    const resultElement = document.createElement('div');
+    resultElement.classList.add('p-2');
+
+    const posterUrl = result.poster_path
+      ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
+      : 'https://via.placeholder.com/150x225?text=No+Image';
+
+    resultElement.innerHTML = `
+      <img src="${posterUrl}" alt="${type === 'movie' ? result.title : result.name}" class="img-fluid"
+      style="cursor:pointer;" onclick="showDetails('${type}', ${result.id})">
+    `;
+    resultsDiv.appendChild(resultElement);
+  });
+}
+
+// Mostrar resultados de búsqueda de actores
+function displayActorResults(actors) {
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = '<h3>Resultados de búsqueda (Actores)</h3>';
+
+  actors.forEach(actor => {
+    const actorElement = document.createElement('div');
+    actorElement.classList.add('p-2');
+
+    actorElement.innerHTML = `<p><strong>${actor.name}</strong></p>`;
+    actor.known_for.forEach(item => {
+      const posterUrl = item.poster_path
+        ? `https://image.tmdb.org/t/p/w500/${item.poster_path}`
+        : 'https://via.placeholder.com/150x225?text=No+Image';
+
+      actorElement.innerHTML += `
+        <img src="${posterUrl}" alt="${item.title || item.name}" class="img-fluid" style="cursor:pointer;"
+        onclick="showDetails('${item.media_type}', ${item.id})">
       `;
-      resultsDiv.appendChild(resultElement);
     });
+
+    resultsDiv.appendChild(actorElement);
+  });
+}
+
+// Función para mostrar indicador de carga
+function showLoadingIndicator(containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = `
+    <div class="loading-spinner"></div>
+  `;
+}
+
+// Array para almacenar la lista de deseos
+let watchlist = [];
+
+// Función para agregar o eliminar de la lista de deseos
+function toggleWatchlist(movieOrSeries) {
+  const index = watchlist.findIndex(item => item.id === movieOrSeries.id && item.type === movieOrSeries.type);
+
+  if (index > -1) {
+    // Si ya está en la lista, eliminarla
+    watchlist.splice(index, 1);
+    alert(`Eliminado de la lista de deseos: ${movieOrSeries.title || movieOrSeries.name}`);
+  } else {
+    // Si no está en la lista, agregarla
+    watchlist.push(movieOrSeries);
+    alert(`Agregado a la lista de deseos: ${movieOrSeries.title || movieOrSeries.name}`);
   }
-  
-  // Función para mostrar actores y sus películas/series
-  function displayActorResults(actors) {
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '<h3>Resultados de búsqueda (Actores)</h3>';
-  
-    actors.forEach(actor => {
-      const actorElement = document.createElement('div');
-      actorElement.classList.add('p-2');
-  
-      actorElement.innerHTML = `
-        <p><strong>${actor.name}</strong></p>
-      `;
-      actor.known_for.forEach(item => {
-        const posterUrl = item.poster_path ? `https://image.tmdb.org/t/p/w500/${item.poster_path}` : 'https://via.placeholder.com/150x225?text=No+Image';
-        actorElement.innerHTML += `
-          <img src="${posterUrl}" alt="${item.title || item.name}" class="img-fluid" style="cursor:pointer;" onclick="showDetails('${item.media_type}', ${item.id})">
-        `;
-      });
-  
-      resultsDiv.appendChild(actorElement);
-    });
+
+  displayWatchlist(); // Actualizar la visualización de la lista
+}
+
+// Función para mostrar la lista de deseos
+function displayWatchlist() {
+  const wishlistContainer = document.getElementById('wishlistContainer');
+  wishlistContainer.innerHTML = ''; // Limpiar el contenedor
+
+  if (watchlist.length === 0) {
+    wishlistContainer.innerHTML = '<p>No hay elementos en la lista de deseos.</p>';
+    return;
   }
-  
-  // Llamar las funciones automáticamente al cargar la página
-window.onload = function() {
+
+  watchlist.forEach(item => {
+    const itemElement = document.createElement('div');
+    itemElement.classList.add('wishlist-item');
+
+    const posterUrl = item.poster_path
+      ? `https://image.tmdb.org/t/p/w500/${item.poster_path}`
+      : 'https://via.placeholder.com/150x225?text=No+Image';
+
+    itemElement.innerHTML = `
+      <img src="${posterUrl}" alt="${item.title || item.name}" class="img-fluid" style="width: 100px;">
+      <span>${item.title || item.name}</span>
+      <button onclick="toggleWatchlist({id: ${item.id}, type: '${item.type}', title: '${item.title || item.name}', poster_path: '${item.poster_path || ''}'})">Eliminar</button>
+    `;
+
+    wishlistContainer.appendChild(itemElement);
+  });
+}
+
+
+// Función para mostrar cuando no hay resultados
+function displayNoResults() {
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = `<p class="no-results">No se encontraron resultados.</p>`;
+}
+
+// Llamar las funciones al cargar la página
+window.onload = function () {
   getMostPopularMovies();
   getMostPopularSeries();
 };
-
-// Función para obtener las 10 series más populares
-async function getMostPopularSeries() {
-  try {
-    const response = await fetch('https://api.themoviedb.org/3/tv/popular?language=en-US&page=1', options);
-    const data = await response.json();
-    displayPopularSeries(data.results.slice(0, 10)); // Limitar a 10 series
-  } catch (error) {
-    console.error(error);
-  }
-}
