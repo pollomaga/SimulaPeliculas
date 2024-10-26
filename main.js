@@ -254,15 +254,26 @@ function toggleWatchlist(movieOrSeries) {
   if (index > -1) {
     // Si ya está en la lista, eliminarla
     watchlist.splice(index, 1);
-    alert(`Eliminado de la lista de deseos: ${movieOrSeries.title || movieOrSeries.name}`);
+    Swal.fire({
+      title: 'Eliminado de la lista de deseos',
+      text: `${movieOrSeries.title || movieOrSeries.name}`,
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    });
   } else {
     // Si no está en la lista, agregarla
     watchlist.push(movieOrSeries);
-    alert(`Agregado a la lista de deseos: ${movieOrSeries.title || movieOrSeries.name}`);
+    Swal.fire({
+      title: 'Agregado a la lista de deseos',
+      text: `${movieOrSeries.title || movieOrSeries.name}`,
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    });
   }
 
   displayWatchlist(); // Actualizar la visualización de la lista
 }
+
 
 // Función para mostrar la lista de deseos
 function displayWatchlist() {

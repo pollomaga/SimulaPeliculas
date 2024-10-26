@@ -2,19 +2,19 @@
 
 /* Estilo del contenedor principal */
 .container {
-  background-color: #f8f9fa; /* Fondo claro */
+  background-color: #f8f9fa;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilo de los encabezados */
 h1 {
-  color: #343a40; /* Color oscuro */
+  color: #343a40;
 }
 
 h3 {
-  color: #007bff; /* Color primario de Bootstrap */
+  color: #007bff;
 }
 
 /* Estilo para la sección de búsqueda */
@@ -29,52 +29,44 @@ h3 {
 
 /* Estilo de las imágenes */
 .img-fluid {
-  border-radius: 5px; /* Bordes redondeados para las imágenes */
-  transition: transform 0.3s; /* Transición suave para el efecto hover */
+  border-radius: 5px;
+  transition: transform 0.3s;
+  width: 100%; /* Ancho del 100% para que sea responsivo */
+  max-width: 150px; /* Tamaño máximo para pantallas grandes */
 }
 
 .img-fluid:hover {
-  transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+  transform: scale(1.05);
 }
 
 /* Estilo para las tarjetas de películas/series */
 .p-2 {
-  margin: 10px; /* Espacio entre las tarjetas */
+  margin: 10px;
 }
 
 /* Estilo del modal */
 .modal-content {
-  border-radius: 8px; /* Bordes redondeados para el modal */
+  border-radius: 8px;
 }
 
 .modal-header {
-  background-color: #007bff; /* Fondo azul del encabezado del modal */
-  color: white; /* Texto blanco */
+  background-color: #007bff;
+  color: white;
 }
 
 .modal-body {
-  background-color: #ffffff; /* Fondo blanco para el cuerpo del modal */
-}
-/* style.css */
-
-/* Ajuste de tamaño para las imágenes (posters) */
-.img-fluid {
-  width: 150px; /* Ancho fijo para las imágenes */
-  height: auto; /* Mantiene la proporción original */
-  border-radius: 5px; /* Bordes redondeados para las imágenes */
-  transition: transform 0.3s; /* Transición suave para el efecto hover */
+  background-color: #ffffff;
 }
 
-.img-fluid:hover {
-  transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
-}
 /* Centrar los títulos principales */
 .title-center {
-  text-align: center; /* Alinear el texto al centro */
-  font-size: 24px; /* Ajusta el tamaño de la fuente según prefieras */
-  font-weight: bold; /* Hacer el texto en negrita */
-  margin-bottom: 20px; /* Espacio inferior opcional para separación */
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
+
+/* Estilo para el contenedor de lista de deseos */
 #wishListContainer {
   margin: 20px;
 }
@@ -97,12 +89,14 @@ h3 {
   max-width: 400px;
 }
 
+/* Estilo de imagen en la lista de deseos */
 .wish-img {
   width: 100px;
   height: auto;
   margin-right: 10px;
 }
 
+/* Estilo del botón */
 button {
   margin-left: auto;
   padding: 5px 10px;
@@ -115,4 +109,67 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+/* Media Queries para dispositivos móviles */
+@media (max-width: 768px) {
+  /* Ajuste de contenedores en dispositivos más pequeños */
+  .container, #wishListContainer {
+    padding: 15px;
+  }
+
+  /* Ajustes de texto para móviles */
+  h1, h3 {
+    text-align: center;
+    font-size: 1.5em;
+  }
+
+  /* Imágenes responsivas para móviles */
+  .img-fluid, .wish-img {
+    width: 80px; /* Ajuste del ancho de la imagen en dispositivos móviles */
+    max-width: 80px;
+  }
+
+  /* Ajuste de tamaño para el título */
+  .title-center {
+    font-size: 20px;
+  }
+
+  /* Diseño de lista de deseos en móviles */
+  .wish-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Botón de lista de deseos centrado en móviles */
+  button {
+    margin-top: 10px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Ajustes para dispositivos muy pequeños */
+  h1, h3 {
+    font-size: 1.2em;
+  }
+
+  .container, #wishListContainer {
+    padding: 10px;
+  }
+
+  .img-fluid, .wish-img {
+    width: 70px;
+  }
+
+  /* Ajustes de botón y texto */
+  button {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  .title-center {
+    font-size: 18px;
+  }
 }
