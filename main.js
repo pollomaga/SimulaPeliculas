@@ -67,8 +67,9 @@ function displayPopularSeries(series) {
 }
 
 // Función para mostrar detalles en un modal
+
 async function showDetails(type, id) {
-  const url = `https://api.themoviedb.org/3/${type}/${id}?language=en-US&append_to_response=credits`;
+  const url = `https://api.themoviedb.org/3/${type}/${id}?language=en-US&append_to_response=credits,videos`;
 
   try {
     const response = await fetch(url, options);
@@ -97,6 +98,10 @@ async function showDetails(type, id) {
       ? data.credits.cast.slice(0, 5).map(actor => actor.name).join(', ')
       : 'No disponible';
 
+    // Obtener el tráiler
+    const trailer = data.videos.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+    const trailerKey = trailer ? trailer.key : null;
+
     modalBody.innerHTML = `
       <div class="row">
         <div class="col-md-4">
@@ -110,6 +115,7 @@ async function showDetails(type, id) {
           <p><strong>Productoras:</strong> ${productionCompanies}</p>
           <p><strong>Reparto principal:</strong> ${cast}</p>
           <p><strong>Resumen:</strong> ${data.overview}</p>
+          ${trailerKey ? `<p><strong>Tráiler:</strong> <button class="btn btn-primary" onclick="showTrailer('${trailerKey}')">Ver tráiler</button></p>` : '<p><strong>Tráiler:</strong> No disponible</p>'}
         </div>
       </div>
     `;
@@ -121,6 +127,23 @@ async function showDetails(type, id) {
     alert('Hubo un error al cargar los detalles. Intenta nuevamente.');
   }
 }
+
+// Nueva función para mostrar el tráiler
+// Nueva función para mostrar el tráiler
+function showTrailer(trailerKey) {
+  const trailerIframe = document.getElementById('trailerIframe');
+  trailerIframe.src = `https://www.youtube.com/embed/${trailerKey}?autoplay=1`;
+
+  const trailerModal = new bootstrap.Modal(document.getElementById('trailerModal'));
+  trailerModal.show();
+
+  // Detener la reproducción cuando se cierra el modal
+  trailerModal._element.addEventListener('hidden.bs.modal', function () {
+    trailerIframe.src = ''; // Reiniciar el src para detener el video
+  });
+}
+
+
 
 // Función para obtener películas populares
 async function getMostPopularMovies() {
