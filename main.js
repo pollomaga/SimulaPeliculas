@@ -10,7 +10,7 @@ const options = {
 
 function displayPopularMovies(movies) {
   const popularDiv = document.getElementById('popularMovies');
-  popularDiv.innerHTML = `<div class="title-center">10 Películas más vistas</div>`;
+  popularDiv.innerHTML = `<div class="title-center">5 Películas más vistas</div>`;
 
   const moviesContainer = document.createElement('div');
   moviesContainer.style.display = 'flex';
@@ -36,10 +36,11 @@ function displayPopularMovies(movies) {
 
   popularDiv.appendChild(moviesContainer);
 }
+// Función para mostrar series populares
 
 function displayPopularSeries(series) {
   const popularDiv = document.getElementById('popularSeries');
-  popularDiv.innerHTML = `<div class="title-center">10 Series más vistas</div>`;
+  popularDiv.innerHTML = `<div class="title-center">5 Series más vistas</div>`;
 
   const seriesContainer = document.createElement('div');
   seriesContainer.style.display = 'flex';
@@ -128,7 +129,7 @@ async function showDetails(type, id) {
   }
 }
 
-// Nueva función para mostrar el tráiler
+
 // Nueva función para mostrar el tráiler
 function showTrailer(trailerKey) {
   const trailerIframe = document.getElementById('trailerIframe');
@@ -152,7 +153,7 @@ async function getMostPopularMovies() {
   try {
     const response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options);
     const data = await response.json();
-    displayPopularMovies(data.results.slice(0, 10)); // Mostrar 10 películas
+    displayPopularMovies(data.results.slice(0, 5)); // Mostrar 5 películas
   } catch (error) {
     console.error(error);
     alert('No se pudieron cargar las películas populares.');
@@ -166,7 +167,7 @@ async function getMostPopularSeries() {
   try {
     const response = await fetch('https://api.themoviedb.org/3/tv/popular?language=en-US&page=1', options);
     const data = await response.json();
-    displayPopularSeries(data.results.slice(0, 10)); // Mostrar 10 series
+    displayPopularSeries(data.results.slice(0, 5)); // Mostrr 5 series
   } catch (error) {
     console.error(error);
     alert('No se pudieron cargar las series populares.');
@@ -229,10 +230,19 @@ function displaySearchResults(results, type) {
     resultElement.innerHTML = `
       <img src="${posterUrl}" alt="${type === 'movie' ? result.title : result.name}" class="img-fluid"
       style="cursor:pointer;" onclick="showDetails('${type}', ${result.id})">
+      <br><br>
+      <button onclick="toggleWatchlist({
+        id: ${result.id}, 
+        type: '${type}', 
+        title: '${type === 'movie' ? result.title : result.name}', 
+        poster_path: '${result.poster_path || ''}'
+      })">Agregar a Lista❤️</button>
     `;
+    
     resultsDiv.appendChild(resultElement);
   });
 }
+
 
 // Mostrar resultados de búsqueda de actores
 function displayActorResults(actors) {
