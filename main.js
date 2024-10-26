@@ -25,11 +25,11 @@ function displayPopularMovies(movies) {
       ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
       : 'https://via.placeholder.com/150x225?text=No+Image';
 
-    movieElement.innerHTML = `
-      <img src="${posterUrl}" alt="${movie.title}" class="img-fluid"
-      style="cursor:pointer;" onclick="showDetails('movie', ${movie.id})">
-      <button onclick="toggleWatchlist({id: ${movie.id}, type: 'movie', title: '${movie.title}', poster_path: '${movie.poster_path || ''}'})">Lista de deseos</button>
-    `;
+      movieElement.innerHTML = `<img src="${posterUrl}" alt="${movie.title}" class="img-fluid" style="cursor:pointer;" 
+      onclick="showDetails('movie', ${movie.id})"><br><br>
+      <button style="display: block; margin: 0 auto;" onclick="toggleWatchlist({id: ${movie.id}, type: 'movie',
+      title: '${movie.title}', poster_path: '${movie.poster_path || ''}'})">Agregar a Lista❤️</button>`;
+    
 
     moviesContainer.appendChild(movieElement);
   });
@@ -56,8 +56,8 @@ function displayPopularSeries(series) {
 
     serieElement.innerHTML = `
       <img src="${posterUrl}" alt="${serie.name}" class="img-fluid"
-      style="cursor:pointer;" onclick="showDetails('tv', ${serie.id})">
-      <button onclick="toggleWatchlist({id: ${serie.id}, type: 'tv', title: '${serie.name}', poster_path: '${serie.poster_path || ''}'})">Lista de deseos</button>
+      style="cursor:pointer;" onclick="showDetails('tv', ${serie.id})"><br><br>
+      <button onclick="toggleWatchlist({id: ${serie.id}, type: 'tv', title: '${serie.name}', poster_path: '${serie.poster_path || ''}'})">Agregar a Lista❤️</button>
     `;
 
     seriesContainer.appendChild(serieElement);
@@ -267,10 +267,10 @@ function showLoadingIndicator(containerId) {
   `;
 }
 
-// Array para almacenar la lista de deseos
+// Array para almacenar en favoritos
 let watchlist = [];
 
-// Función para agregar o eliminar de la lista de deseos
+// Función para agregar o eliminar de la lista de favoritos
 function toggleWatchlist(movieOrSeries) {
   const index = watchlist.findIndex(item => item.id === movieOrSeries.id && item.type === movieOrSeries.type);
 
@@ -278,7 +278,7 @@ function toggleWatchlist(movieOrSeries) {
     // Si ya está en la lista, eliminarla
     watchlist.splice(index, 1);
     Swal.fire({
-      title: 'Eliminado de la lista de deseos',
+      title: 'Eliminado de la lista de favoritos',
       text: `${movieOrSeries.title || movieOrSeries.name}`,
       icon: 'success',
       confirmButtonText: 'Aceptar'
@@ -287,7 +287,7 @@ function toggleWatchlist(movieOrSeries) {
     // Si no está en la lista, agregarla
     watchlist.push(movieOrSeries);
     Swal.fire({
-      title: 'Agregado a la lista de deseos',
+      title: 'Agregado a la lista de favoritos',
       text: `${movieOrSeries.title || movieOrSeries.name}`,
       icon: 'success',
       confirmButtonText: 'Aceptar'
@@ -298,13 +298,13 @@ function toggleWatchlist(movieOrSeries) {
 }
 
 
-// Función para mostrar la lista de deseos
+// Función para mostrar la lista de favoritos
 function displayWatchlist() {
   const wishlistContainer = document.getElementById('wishlistContainer');
   wishlistContainer.innerHTML = ''; // Limpiar el contenedor
 
   if (watchlist.length === 0) {
-    wishlistContainer.innerHTML = '<p>No hay elementos en la lista de deseos.</p>';
+    wishlistContainer.innerHTML = '<p>No hay elementos en la lista de favoritos.</p>';
     return;
   }
 
