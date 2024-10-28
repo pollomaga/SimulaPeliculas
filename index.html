@@ -13,7 +13,7 @@
 
 <body>
   <div class="container">
-    <h1 class="text-center my-4">CINESERIEFLIOS</h1>
+    <h1 class="text-center my-4">CINESERIEFILOS</h1>
 
     <!-- Formulario de búsqueda -->
     <div class="search-section text-center mb-4">
@@ -67,6 +67,24 @@
       </div>
     </div>
   </div>
+  
+
+  <div>
+    <label for="genreSelect">Selecciona un género:</label>
+    <select id="genreSelect">
+      <!-- Los géneros se cargarán aquí -->
+    </select>
+    <button onclick="getMostPopularByGenre('movie')">Mostrar películas por género</button>
+    <button onclick="getMostPopularByGenre('tv')">Mostrar series por género</button>
+  </div>
+  
+  <!-- Contenedor para las películas y series más populares -->
+  <div id="popularMovies"></div>
+  <div id="popularSeries"></div>
+  
+  <!-- Contenedor separado para los resultados de películas y series por género -->
+  <div id="genreMoviesContainer"></div>
+  <div id="genreSeriesContainer"></div>
 
 
 <div id="watchlist">

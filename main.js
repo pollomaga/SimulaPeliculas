@@ -67,6 +67,123 @@ function displayPopularSeries(series) {
   popularDiv.appendChild(seriesContainer);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+
+// Función para cargar géneros en un selector
+async function loadGenres(type) {
+  const genreUrl = `https://api.themoviedb.org/3/genre/${type}/list?language=en-US`;
+  try {
+    const response = await fetch(genreUrl, options);
+    const data = await response.json();
+
+    const genreSelect = document.getElementById('genreSelect');
+    genreSelect.innerHTML = ''; // Limpiar opciones anteriores
+
+    data.genres.forEach(genre => {
+      const option = document.createElement('option');
+      option.value = genre.id;
+      option.textContent = genre.name;
+      genreSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error(error);
+    alert('No se pudieron cargar los géneros.');
+  }
+}
+
+// Función para obtener las más vistas por género y mostrar en contenedores específicos
+async function getMostPopularByGenre(type) {
+  const genreId = document.getElementById('genreSelect').value;
+  if (!genreId) {
+    alert('Selecciona un género primero.');
+    return;
+  }
+
+  const url = `https://api.themoviedb.org/3/discover/${type}?with_genres=${genreId}&sort_by=popularity.desc&language=en-US&page=1`;
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    
+    const resultsContainer = type === 'movie' ? document.getElementById('genreMovies') : document.getElementById('genreSeries');
+    resultsContainer.innerHTML = ''; // Limpiar resultados anteriores
+
+    if (type === 'movie') {
+      displayPopularMoviesInContainer(data.results.slice(0, 5), resultsContainer);
+    } else {
+      displayPopularSeriesInContainer(data.results.slice(0, 5), resultsContainer);
+    }
+  } catch (error) {
+    console.error(error);
+    alert('No se pudieron cargar los resultados.');
+  }
+}
+
+// Funciones para mostrar resultados en el contenedor de género
+function displayPopularMoviesInContainer(movies, container) {
+  container.innerHTML = `<div class="title-center">Películas más vistas por género</div>`;
+
+  const moviesContainer = document.createElement('div');
+  moviesContainer.style.display = 'flex';
+  moviesContainer.style.flexWrap = 'wrap';
+  moviesContainer.style.justifyContent = 'center';
+
+  movies.forEach(movie => {
+    const movieElement = document.createElement('div');
+    movieElement.classList.add('p-2');
+
+    const posterUrl = movie.poster_path
+      ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+      : 'https://via.placeholder.com/150x225?text=No+Image';
+
+    movieElement.innerHTML = `
+      <img src="${posterUrl}" alt="${movie.title}" class="img-fluid" style="cursor:pointer;"
+      onclick="showDetails('movie', ${movie.id})"><br><br>
+      <button onclick="toggleWatchlist({id: ${movie.id}, type: 'movie', title: '${movie.title}', poster_path: '${movie.poster_path || ''}'})">Agregar a Lista❤️</button>`;
+    
+    moviesContainer.appendChild(movieElement);
+  });
+
+  container.appendChild(moviesContainer);
+}
+
+function displayPopularSeriesInContainer(series, container) {
+  container.innerHTML = `<div class="title-center">Series más vistas por género</div>`;
+
+  const seriesContainer = document.createElement('div');
+  seriesContainer.style.display = 'flex';
+  seriesContainer.style.flexWrap = 'wrap';
+  seriesContainer.style.justifyContent = 'center';
+
+  series.forEach(serie => {
+    const serieElement = document.createElement('div');
+    serieElement.classList.add('p-2');
+
+    const posterUrl = serie.poster_path
+      ? `https://image.tmdb.org/t/p/w500/${serie.poster_path}`
+      : 'https://via.placeholder.com/150x225?text=No+Image';
+
+    serieElement.innerHTML = `
+      <img src="${posterUrl}" alt="${serie.name}" class="img-fluid" style="cursor:pointer;"
+      onclick="showDetails('tv', ${serie.id})"><br><br>
+      <button onclick="toggleWatchlist({id: ${serie.id}, type: 'tv', title: '${serie.name}', poster_path: '${serie.poster_path || ''}'})">Agregar a Lista❤️</button>`;
+    
+    seriesContainer.appendChild(serieElement);
+  });
+
+  container.appendChild(seriesContainer);
+}
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 // Función para mostrar detalles en un modal
 
 async function showDetails(type, id) {
@@ -243,6 +360,59 @@ function displaySearchResults(results, type) {
   });
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+async function loadGenres(type) {
+  const genreUrl = `https://api.themoviedb.org/3/genre/${type}/list?language=en-US`;
+  try {
+    const response = await fetch(genreUrl, options);
+    const data = await response.json();
+
+    const genreSelect = document.getElementById('genreSelect');
+    genreSelect.innerHTML = ''; // Limpiar opciones anteriores
+
+    data.genres.forEach(genre => {
+      const option = document.createElement('option');
+      option.value = genre.id;
+      option.textContent = genre.name;
+      genreSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error(error);
+    alert('No se pudieron cargar los géneros.');
+  }
+}
+
+async function getMostPopularByGenre(type) {
+  const genreId = document.getElementById('genreSelect').value;
+  if (!genreId) {
+    alert('Selecciona un género primero.');
+    return;
+  }
+
+  const url = `https://api.themoviedb.org/3/discover/${type}?with_genres=${genreId}&sort_by=popularity.desc&language=en-US&page=1`;
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    
+    // Selecciona el contenedor específico para películas o series
+    const container = type === 'movie' ? document.getElementById('genreMoviesContainer') : document.getElementById('genreSeriesContainer');
+    container.innerHTML = ''; // Limpia el contenedor antes de agregar nuevos resultados
+
+    if (type === 'movie') {
+      displayPopularMoviesInContainer(data.results.slice(0, 5), container); // Usar contenedor específico
+    } else {
+      displayPopularSeriesInContainer(data.results.slice(0, 5), container); // Usar contenedor específico
+    }
+  } catch (error) {
+    console.error(error);
+    alert('No se pudieron cargar los resultados.');
+  }
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 // Mostrar resultados de búsqueda de actores
 function displayActorResults(actors) {
@@ -345,6 +515,7 @@ function displayNoResults() {
 
 // Llamar las funciones al cargar la página
 window.onload = function () {
+  loadGenres('movie');
   getMostPopularMovies();
   getMostPopularSeries();
 };
