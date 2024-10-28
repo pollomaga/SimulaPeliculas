@@ -2,7 +2,7 @@ const options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MjU5NDIyMWVhYjdhNTMyZjY4ZWFjZjQ4ZTQ4MDNjZSIsIm5iZiI6MTcyOTYzOTI0NS4wNzYwNDcsInN1YiI6IjY3MTdjYjc3MWUyMmQzZmI2YmJkNTZjYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.818sK98JtFcbPu7DyeOLh1F2KvfHa8bb5wifz_0FLH4' // Reemplaza esto con tu token de API
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MjU5NDIyMWVhYjdhNTMyZjY4ZWFjZjQ4ZTQ4MDNjZSIsIm5iZiI6MTcyOTYzOTI0NS4wNzYwNDcsInN1YiI6IjY3MTdjYjc3MWUyMmQzZmI2YmJkNTZjYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.818sK98JtFcbPu7DyeOLh1F2KvfHa8bb5wifz_0FLH4'
   }
 };
 
@@ -25,11 +25,11 @@ function displayPopularMovies(movies) {
       ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
       : 'https://via.placeholder.com/150x225?text=No+Image';
 
-      movieElement.innerHTML = `<img src="${posterUrl}" alt="${movie.title}" class="img-fluid" style="cursor:pointer;" 
+    movieElement.innerHTML = `<img src="${posterUrl}" alt="${movie.title}" class="img-fluid" style="cursor:pointer;" 
       onclick="showDetails('movie', ${movie.id})"><br><br>
       <button style="display: block; margin: 0 auto;" onclick="toggleWatchlist({id: ${movie.id}, type: 'movie',
       title: '${movie.title}', poster_path: '${movie.poster_path || ''}'})">Agregar a Lista❤️</button>`;
-    
+
 
     moviesContainer.appendChild(movieElement);
   });
@@ -67,7 +67,7 @@ function displayPopularSeries(series) {
   popularDiv.appendChild(seriesContainer);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+
 
 // Función para cargar géneros en un selector
 async function loadGenres(type) {
@@ -104,7 +104,7 @@ async function getMostPopularByGenre(type) {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
-    
+
     const resultsContainer = type === 'movie' ? document.getElementById('genreMovies') : document.getElementById('genreSeries');
     resultsContainer.innerHTML = ''; // Limpiar resultados anteriores
 
@@ -119,10 +119,11 @@ async function getMostPopularByGenre(type) {
   }
 }
 
-// Funciones para mostrar resultados en el contenedor de género
 function displayPopularMoviesInContainer(movies, container) {
-  container.innerHTML = `<div class="title-center">Películas más vistas por género</div>`;
+ 
+  container.innerHTML = ''; // Esto eliminará cualquier contenido anterior
 
+  // Crear contenedor para las películas
   const moviesContainer = document.createElement('div');
   moviesContainer.style.display = 'flex';
   moviesContainer.style.flexWrap = 'wrap';
@@ -131,6 +132,7 @@ function displayPopularMoviesInContainer(movies, container) {
   movies.forEach(movie => {
     const movieElement = document.createElement('div');
     movieElement.classList.add('p-2');
+    movieElement.style.flex = '0 0 100px'; 
 
     const posterUrl = movie.poster_path
       ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
@@ -140,16 +142,19 @@ function displayPopularMoviesInContainer(movies, container) {
       <img src="${posterUrl}" alt="${movie.title}" class="img-fluid" style="cursor:pointer;"
       onclick="showDetails('movie', ${movie.id})"><br><br>
       <button onclick="toggleWatchlist({id: ${movie.id}, type: 'movie', title: '${movie.title}', poster_path: '${movie.poster_path || ''}'})">Agregar a Lista❤️</button>`;
-    
+
     moviesContainer.appendChild(movieElement);
   });
 
+  // Agregar el contenedor de películas al contenedor principal
   container.appendChild(moviesContainer);
 }
 
 function displayPopularSeriesInContainer(series, container) {
-  container.innerHTML = `<div class="title-center">Series más vistas por género</div>`;
+  
+  container.innerHTML = ''; // Esto eliminará cualquier contenido anterior
 
+  // Crear contenedor para las series
   const seriesContainer = document.createElement('div');
   seriesContainer.style.display = 'flex';
   seriesContainer.style.flexWrap = 'wrap';
@@ -158,6 +163,7 @@ function displayPopularSeriesInContainer(series, container) {
   series.forEach(serie => {
     const serieElement = document.createElement('div');
     serieElement.classList.add('p-2');
+    serieElement.style.flex = '0 0 100px'; // Ajusta el tamaño según sea necesario
 
     const posterUrl = serie.poster_path
       ? `https://image.tmdb.org/t/p/w500/${serie.poster_path}`
@@ -167,21 +173,13 @@ function displayPopularSeriesInContainer(series, container) {
       <img src="${posterUrl}" alt="${serie.name}" class="img-fluid" style="cursor:pointer;"
       onclick="showDetails('tv', ${serie.id})"><br><br>
       <button onclick="toggleWatchlist({id: ${serie.id}, type: 'tv', title: '${serie.name}', poster_path: '${serie.poster_path || ''}'})">Agregar a Lista❤️</button>`;
-    
+
     seriesContainer.appendChild(serieElement);
   });
 
+  // Agregar el contenedor de series al contenedor principal
   container.appendChild(seriesContainer);
 }
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 // Función para mostrar detalles en un modal
@@ -246,8 +244,7 @@ async function showDetails(type, id) {
   }
 }
 
-
-// Nueva función para mostrar el tráiler
+// Despues de Obtener el trailer lo muestro
 function showTrailer(trailerKey) {
   const trailerIframe = document.getElementById('trailerIframe');
   trailerIframe.src = `https://www.youtube.com/embed/${trailerKey}?autoplay=1`;
@@ -260,8 +257,6 @@ function showTrailer(trailerKey) {
     trailerIframe.src = ''; // Reiniciar el src para detener el video
   });
 }
-
-
 
 // Función para obtener películas populares
 async function getMostPopularMovies() {
@@ -355,33 +350,11 @@ function displaySearchResults(results, type) {
         poster_path: '${result.poster_path || ''}'
       })">Agregar a Lista❤️</button>
     `;
-    
+
     resultsDiv.appendChild(resultElement);
   });
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-async function loadGenres(type) {
-  const genreUrl = `https://api.themoviedb.org/3/genre/${type}/list?language=en-US`;
-  try {
-    const response = await fetch(genreUrl, options);
-    const data = await response.json();
-
-    const genreSelect = document.getElementById('genreSelect');
-    genreSelect.innerHTML = ''; // Limpiar opciones anteriores
-
-    data.genres.forEach(genre => {
-      const option = document.createElement('option');
-      option.value = genre.id;
-      option.textContent = genre.name;
-      genreSelect.appendChild(option);
-    });
-  } catch (error) {
-    console.error(error);
-    alert('No se pudieron cargar los géneros.');
-  }
-}
 
 async function getMostPopularByGenre(type) {
   const genreId = document.getElementById('genreSelect').value;
@@ -395,7 +368,7 @@ async function getMostPopularByGenre(type) {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
-    
+
     // Selecciona el contenedor específico para películas o series
     const container = type === 'movie' ? document.getElementById('genreMoviesContainer') : document.getElementById('genreSeriesContainer');
     container.innerHTML = ''; // Limpia el contenedor antes de agregar nuevos resultados

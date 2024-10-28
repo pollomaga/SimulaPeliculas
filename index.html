@@ -13,26 +13,29 @@
 
 <body>
   <div class="container">
-    <h1 class="text-center my-4">CINESERIEFILOS</h1>
+    <div class="header d-flex justify-content-center align-items-center my-4">
+      
+      <h1 class="text-center"><img src="./LogoCine.webp" alt="Logo Cineseriefilos" class="img-fluid me-3" style="max-width: 800px;"></h1>
+    </div>
+    
 
     <!-- Formulario de búsqueda -->
-    <div class="search-section text-center mb-4">
-      <input type="text" id="searchInput" class="form-control w-50 d-inline-block"
-        placeholder="Buscar por título o actor...">
-      <select id="searchType" class="form-select w-25 d-inline-block">
-        <option value="movie">Película</option>
-        <option value="tv">Serie</option>
-        <option value="actor">Actor</option>
-      </select>
-      <button class="btn btn-primary" onclick="search()">Buscar</button>
-    </div>
+  <div class="search-section mb-4">
+    <input type="text" id="searchInput" class="form-control" placeholder="Buscar por título o actor...">
+    <select id="searchType" class="form-select">
+      <option value="movie">Película</option>
+      <option value="tv">Serie</option>
+      <option value="actor">Actor</option>
+    </select>
+    <button class="btn btn-primary" onclick="search()">Buscar</button>
+  </div>
 
-        <!-- Sección para mostrar los resultados de búsqueda -->
-        <div id="results" class="d-flex flex-wrap justify-content-start mt-4"></div>
+    <!--Sección para mostrar los resultados de búsqueda-->
+    <div id="results" class="d-flex flex-wrap justify-content-start mt-4"></div>
 
     <!-- Sección para mostrar las películas y series populares -->
-    <div id="popularMovies" class="d-flex flex-wrap justify-content-start"></div>
-    <div id="popularSeries" class="d-flex flex-wrap justify-content-start"></div>
+    <div id="popularMovies" class="d-flex flex-wrap justify-content-center"></div>
+    <div id="popularSeries" class="d-flex flex-wrap justify-content-center"></div>
 
 <!-- Modal para mostrar detalles -->
 <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
@@ -69,26 +72,40 @@
   </div>
   
 
-  <div>
-    <label for="genreSelect">Selecciona un género:</label>
-    <select id="genreSelect">
+  <div class="d-flex flex-column align-items-center my-4">
+    <label for="genreSelect" class="mb-2">Selecciona un género:</label>
+    <select id="genreSelect" class="form-select w-auto mb-3">
       <!-- Los géneros se cargarán aquí -->
     </select>
-    <button onclick="getMostPopularByGenre('movie')">Mostrar películas por género</button>
-    <button onclick="getMostPopularByGenre('tv')">Mostrar series por género</button>
+    
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" onclick="getMostPopularByGenre('movie')">Mostrar películas por género</button>
+      <button class="btn btn-primary" onclick="getMostPopularByGenre('tv')">Mostrar series por género</button>
+    </div>
   </div>
   
-  <!-- Contenedor para las películas y series más populares -->
-  <div id="popularMovies"></div>
-  <div id="popularSeries"></div>
+  
+<!--   <!-- Contenedor para las películas y series más populares -->
+ <!--  <div id="popularMovies"></div>
+  <div id="popularSeries"></div> -->
   
   <!-- Contenedor separado para los resultados de películas y series por género -->
-  <div id="genreMoviesContainer"></div>
-  <div id="genreSeriesContainer"></div>
+  
+  
+
+  <div id="moviesContainer">
+    <h2 class="title-center">Películas más vistas por género</h2>
+    <div id="genreMoviesContainer"></div>
+  </div>
+  <div id="seriesContainer">
+    <h2 class="title-center">Series más vistas por género</h2>
+    <div id="genreSeriesContainer"></div>
+  </div>
+  
 
 
 <div id="watchlist">
-  <h2>MI LISTA</h2>
+  <h2>Mi Lista</h2>
   <div id="wishlistContainer"></div>
 </div>
 

@@ -1,175 +1,149 @@
-/* style.css */
 
-/* Estilo del contenedor principal */
-.container {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilo de los encabezados */
+/* Encabezado */
 h1 {
-  color: #343a40;
-}
-
-h3 {
-  color: #007bff;
-}
-
-/* Estilo para la sección de búsqueda */
-.search-section {
-  margin-bottom: 20px;
-}
-
-/* Estilo de los resultados */
-#results {
-  margin-top: 20px;
-}
-
-/* Estilo de las imágenes */
-.img-fluid {
-  border-radius: 5px;
-  transition: transform 0.3s;
-  width: 100%; /* Ancho del 100% para que sea responsivo */
-  max-width: 150px; /* Tamaño máximo para pantallas grandes */
-}
-
-.img-fluid:hover {
-  transform: scale(1.05);
-}
-
-/* Estilo para las tarjetas de películas/series */
-.p-2 {
-  margin: 10px;
-}
-
-/* Estilo del modal */
-.modal-content {
-  border-radius: 8px;
-}
-
-.modal-header {
-  background-color: #007bff;
-  color: white;
-}
-
-.modal-body {
-  background-color: #ffffff;
-}
-
-/* Centrar los títulos principales */
-.title-center {
-  text-align: center;
-  font-size: 24px;
+  font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 20px;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-/* Estilo para el contenedor de lista de deseos */
-#wishListContainer {
-  margin: 20px;
-}
-
-.wish-list {
+/* Búsqueda */
+.search-section {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  gap: 1rem;
 }
 
-.wish-item {
+.search-section input, .search-section select, .search-section button {
+  max-width: 100%;
+}
+
+/* Contenedor de Resultados y Listas */
+#results, #popularMovies, #popularSeries, #genreMoviesContainer, #genreSeriesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+  margin-top: 2rem;
+}
+
+.p-2 {
+  padding: 1rem;
+}
+
+/* Tarjetas de películas y series */
+img.img-fluid {
+  max-width: 150px;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+img.img-fluid:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones */
+button.btn {
+  background-color: #3498db;
+  color: white;
+  margin-top: 1rem;
+}
+
+button.btn:hover {
+  background-color: #2980b9;
+}
+
+/* Modal */
+.modal-title {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.modal-body img {
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+.modal-footer .btn {
+  background-color: #e74c3c;
+}
+
+.modal-footer .btn:hover {
+  background-color: #c0392b;
+}
+
+/* Watchlist */
+#watchlist h2 {
+  text-align: center;
+  margin-top: 2rem;
+  color: #8e44ad;
+}
+
+#wishlistContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.wishlist-item {
   display: flex;
   align-items: center;
-  margin: 10px 0;
-  background-color: #f8f9fa;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
+  gap: 0.5rem;
 }
 
-/* Estilo de imagen en la lista de deseos */
-.wish-img {
+.wishlist-item img {
   width: 100px;
   height: auto;
-  margin-right: 10px;
-}
-
-/* Estilo del botón */
-button {
-  margin-left: auto;
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
   border-radius: 5px;
-  cursor: pointer;
 }
 
-button:hover {
-  background-color: #0056b3;
+.wishlist-item span {
+  font-weight: bold;
 }
 
-/* Media Queries para dispositivos móviles */
-@media (max-width: 768px) {
-  /* Ajuste de contenedores en dispositivos más pequeños */
-  .container, #wishListContainer {
-    padding: 15px;
-  }
-
-  /* Ajustes de texto para móviles */
-  h1, h3 {
-    text-align: center;
-    font-size: 1.5em;
-  }
-
-  /* Imágenes responsivas para móviles */
-  .img-fluid, .wish-img {
-    width: 80px; /* Ajuste del ancho de la imagen en dispositivos móviles */
-    max-width: 80px;
-  }
-
-  /* Ajuste de tamaño para el título */
-  .title-center {
-    font-size: 20px;
-  }
-
-  /* Diseño de lista de deseos en móviles */
-  .wish-item {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  /* Botón de lista de deseos centrado en móviles */
-  button {
-    margin-top: 10px;
-    width: 100%;
-  }
+.wishlist-item button {
+  background-color: transparent;
+  color: #e74c3c;
+  border: none;
+  font-size: 1.2rem;
+}
+#genreMoviesContainer, #genreSeriesContainer {
+  display: flex; /* Utiliza flexbox para el diseño horizontal */
+  overflow-x: auto; /* Permite el desplazamiento horizontal si es necesario */
+  padding: 5px; /* Espaciado interno */
 }
 
-@media (max-width: 480px) {
-  /* Ajustes para dispositivos muy pequeños */
-  h1, h3 {
-    font-size: 1.2em;
-  }
+.movie, .series {
+  margin-right: 10px; /* Espacio entre los elementos */
+  flex: 0 0 auto; /* Evita que los elementos se estiren y asegura que se mantengan en línea */
+}
 
-  .container, #wishListContainer {
-    padding: 10px;
-  }
-
-  .img-fluid, .wish-img {
-    width: 70px;
-  }
-
-  /* Ajustes de botón y texto */
-  button {
-    padding: 8px;
-    font-size: 0.9em;
-  }
-
-  .title-center {
-    font-size: 18px;
-  }
+.title-center {
+  text-align: center; /* Centra el texto */
+  margin-bottom: 20px; /* Espacio debajo del título */
+  font-size: 1.5rem; /* Tamaño de fuente */
+  font-weight: bold; /* Negrita */
+}
+#genreMoviesContainer {
+  width: 80%; /* Ajusta el ancho según lo necesites */
+  height: auto; /* Ajusta la altura según lo necesites */
+  margin: 0 auto; /* Centra horizontalmente */
+  display: flex;
+  align-items: center; /* Centra verticalmente el contenido */
+  justify-content: center; /* Centra horizontalmente el contenido */
+  background-color: #ffffff; /* Color de fondo opcional para visualizar el contenedor */
+}
+#genreSeriesContainer{
+  width: 80%; /* Ajusta el ancho según lo necesites */
+  height: auto; /* Ajusta la altura según lo necesites */
+  margin: 0 auto; /* Centra horizontalmente */
+  display: flex;
+  align-items: center; /* Centra verticalmente el contenido */
+  justify-content: center; /* Centra horizontalmente el contenido */
+  background-color: #ffffff; /* Color de fondo opcional para visualizar el contenedor */
 }
